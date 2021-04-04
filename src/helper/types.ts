@@ -12,3 +12,8 @@ export interface MessageInfo {
 }
 
 export type SnapShopType =  (string | number | boolean)[]
+
+export type SingInfo = {
+    error: string | null
+    email: string;
+    password: string; };
