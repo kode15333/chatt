@@ -10,13 +10,10 @@ import Chat from "./pages/Chat";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import { auth } from "./services/firebase";
+import {loginState} from "./helper/types";
 
-interface loginType {
-    authenticated: boolean;
-    loading: boolean
-}
 const App = () => {
-    const [login, setLogin] = useState<loginType>({
+    const [login, setLogin] = useState<loginState>({
         authenticated : false,
         loading: true
     });
