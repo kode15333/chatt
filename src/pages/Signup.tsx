@@ -12,8 +12,8 @@ const SignUp = () => {
         password: ''
     });
 
-    const handleChange = (e:  React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
         setSignUpInfo({
             ...signUpInfo,
             [name]: value
@@ -31,7 +31,7 @@ const SignUp = () => {
         } catch (error) {
             setSignUpInfo({
                 ...signUpInfo,
-                error: error,
+                error: error.message,
             })
         }
     }
@@ -43,7 +43,7 @@ const SignUp = () => {
         } catch (error) {
             setSignUpInfo({
                 ...signUpInfo,
-                error: error,
+                error: error.message,
             })
         }
     }
@@ -55,8 +55,9 @@ const SignUp = () => {
             console.log(error)
             setSignUpInfo({
                 ...signUpInfo,
-                error: error,
-            })        }
+                error: error.message,
+            })
+        }
     }
 
     return (
@@ -68,10 +69,12 @@ const SignUp = () => {
                 </h1>
                 <p className="lead">Fill in the form below to create an account.</p>
                 <div className="form-group">
-                    <input className="form-control" placeholder="Email" name="email" type="email" onChange={handleChange} value={signUpInfo.email}/>
+                    <input className="form-control" placeholder="Email" name="email" type="email"
+                           onChange={handleChange} value={signUpInfo.email}/>
                 </div>
                 <div className="form-group">
-                    <input className="form-control" placeholder="Password" name="password" onChange={handleChange} value={signUpInfo.password} type="password"/>
+                    <input className="form-control" placeholder="Password" name="password" onChange={handleChange}
+                           value={signUpInfo.password} type="password"/>
                 </div>
                 <div className="form-group">
                     {signUpInfo.error ? <p className="text-danger">{signUpInfo.error}</p> : null}
