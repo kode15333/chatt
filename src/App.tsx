@@ -1,14 +1,11 @@
-import React, {Component, ReactNode, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Route,
     BrowserRouter as Router,
     Switch,
-    Redirect
 } from "react-router-dom";
 import Home from "./pages/Home";
-import Chat from "./pages/Chat";
 import Signup from "./pages/Signup";
-import Login from "./pages/Login";
 import { auth } from "./services/firebase";
 import {loginState} from "./helper/types";
 
@@ -34,17 +31,16 @@ const App = () => {
                 })
             }
         });
-   })
-
+   }, [])
     return login.loading ? (
         <div className="spinner-border text-success" role="status">
             <span className="sr-only">Loading...</span>
         </div>
     ) : (
-        <Router>
+    <Router>
             <Switch>
                 <Route exact path="/" component={Home} />
-                {/*<Route exact path="/signup" component={Signup} />*/}
+                <Route exact path="/signup" component={Signup} />
             </Switch>
         </Router>
     );
