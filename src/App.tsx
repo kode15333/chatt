@@ -1,13 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React, {Component, createElement, useEffect, useState} from "react";
 import {
     Route,
     BrowserRouter as Router,
     Switch,
+    Redirect,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import { auth } from "./services/firebase";
 import {loginState} from "./helper/types";
+import {RouteProps} from "react-router";
+
+
+interface PublicRouteProps extends RouteProps  {
+    authenticated: boolean;
+}
+
+const PublicRoute = (props: PublicRouteProps) => {
+    let { component: Component, authenticated, ...rest } = props;
+    return (
+        <Route
+            {...rest}
+            render={(props) => {
+                return authenticated ? <Component {...props}/> : <Redirect to="/chat" />;
+            }}
+        />
+    );
+};
+
 
 const App = () => {
     const [login, setLogin] = useState<loginState>({
@@ -40,7 +60,11 @@ const App = () => {
     <Router>
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/signup" component={Signup} />
+                <PublicRoute
+                    path="/signup"
+                    authenticated={login.authenticated}
+                    component={Signup}
+                />
             </Switch>
         </Router>
     );
