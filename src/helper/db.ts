@@ -13,7 +13,7 @@ export function readChats() {
 }
 
 export function writeChats(message : MessageInfo) {
-    return db.ref("chats").push({
+    return db.ref("chats").push().set({
         content: message.content,
         timestamp: message.timestamp,
         uid: message.uid
