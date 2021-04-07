@@ -9,7 +9,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import { auth } from "./services/firebase";
 import {loginState} from "./helper/types";
-import {RouteProps} from "react-router";
+import { RouteProps} from "react-router";
 
 
 interface PublicRouteProps extends RouteProps  {
@@ -22,7 +22,7 @@ const PublicRoute = (props: PublicRouteProps) => {
         <Route
             {...rest}
             render={(props) => {
-                return authenticated ? <Component {...props}/> : <Redirect to="/chat" />;
+                return authenticated ? Component && <Component {...props}/> : <Redirect to="/chat" />;
             }}
         />
     );
