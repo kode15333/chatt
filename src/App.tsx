@@ -1,33 +1,43 @@
 import React, {Component, useEffect, useState} from "react";
-import {
-    Route,
-    BrowserRouter as Router,
-    Switch,
-    Redirect,
-} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch,} from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import {auth} from "./services/firebase";
 import {loginState} from "./helper/types";
-import { RouteProps} from "react-router";
+import {RouteProps} from "react-router";
+import Login from "./pages/Login";
 
-
-interface PublicRouteProps extends RouteProps {
+interface CustomRouteProps extends RouteProps {
     authenticated: boolean;
 }
 
-const PublicRoute = (props: PublicRouteProps) => {
-    let {component: Component, authenticated, ...rest} = props;
+const PrivateRoute = ({component: Component, authenticated, ...rest}: CustomRouteProps) => {
     return (
         <Route
             {...rest}
-            render={(props) => {
-                return authenticated ? Component && <Component {...props}/> : <Redirect to="/chat"/>;
-            }}
-        />
-    );
+            render={props =>
+                authenticated ? (
+                    Component && <Component {...props}/>
+                ) : (
+                    <Redirect
+                        to={{pathname: "/login", state: {from: props.location}}}
+                    />
+                )
+            }/>
+    )
 }
 
+const PublicRoute = ({component: Component, authenticated, ...rest}: CustomRouteProps) => {
+    return (
+        <Route
+            {...rest}
+            render={props =>
+                !authenticated ? (
+                    Component && <Component {...props}/>
+                ) : <Redirect to="/chat"/>}
+        />
+    )
+};
 
 
 const App = () => {
@@ -65,6 +75,11 @@ const App = () => {
                     path="/signup"
                     authenticated={login.authenticated}
                     component={Signup}
+                />
+                <PublicRoute
+                    path="/login"
+                    authenticated={login.authenticated}
+                    component={Login}
                 />
             </Switch>
         </Router>
