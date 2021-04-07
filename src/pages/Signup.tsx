@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import {SingInfo} from "../helper/types";
+import {Info} from "../helper/types";
 import {signInWithGitHub, signInWithGoogle, signup} from '../helper/auth'
 
 const SignUp = () => {
 
 
-    const [signUpInfo, setSignUpInfo] = useState<SingInfo>({
+    const [signUpInfo, setSignUpInfo] = useState<Info>({
         error: null,
         email: '',
         password: ''
