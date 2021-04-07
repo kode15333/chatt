@@ -1,4 +1,4 @@
-import React, {Component, createElement, useEffect, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {
     Route,
     BrowserRouter as Router,
@@ -7,31 +7,32 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
-import { auth } from "./services/firebase";
+import {auth} from "./services/firebase";
 import {loginState} from "./helper/types";
 import { RouteProps} from "react-router";
 
 
-interface PublicRouteProps extends RouteProps  {
+interface PublicRouteProps extends RouteProps {
     authenticated: boolean;
 }
 
 const PublicRoute = (props: PublicRouteProps) => {
-    let { component: Component, authenticated, ...rest } = props;
+    let {component: Component, authenticated, ...rest} = props;
     return (
         <Route
             {...rest}
             render={(props) => {
-                return authenticated ? Component && <Component {...props}/> : <Redirect to="/chat" />;
+                return authenticated ? Component && <Component {...props}/> : <Redirect to="/chat"/>;
             }}
         />
     );
-};
+}
+
 
 
 const App = () => {
     const [login, setLogin] = useState<loginState>({
-        authenticated : false,
+        authenticated: false,
         loading: true
     });
 
@@ -40,26 +41,26 @@ const App = () => {
             if (user) {
                 setLogin({
                     ...login,
-                    authenticated : true,
+                    authenticated: true,
                     loading: false
                 })
             } else {
                 setLogin({
                     ...login,
-                    authenticated : false,
+                    authenticated: false,
                     loading: false
                 })
             }
         });
-   }, [])
+    }, [])
     return login.loading ? (
         <div className="spinner-border text-success" role="status">
             <span className="sr-only">Loading...</span>
         </div>
     ) : (
-    <Router>
+        <Router>
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Home}/>
                 <PublicRoute
                     path="/signup"
                     authenticated={login.authenticated}
@@ -69,9 +70,6 @@ const App = () => {
         </Router>
     );
 }
-
-
-
 
 
 export default App;
