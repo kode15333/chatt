@@ -6,7 +6,8 @@ import {auth} from "./services/firebase";
 import {loginState} from "./helper/types";
 import {RouteProps} from "react-router";
 import Login from "./pages/Login";
-
+import Chat from "./pages/Chat";
+import './style.css'
 interface CustomRouteProps extends RouteProps {
     authenticated: boolean;
 }
@@ -71,6 +72,11 @@ const App = () => {
         <Router>
             <Switch>
                 <Route exact path="/" component={Home}/>
+                <PrivateRoute
+                    path="/chat"
+                    authenticated={login.authenticated}
+                    component={Chat}
+                />
                 <PublicRoute
                     path="/signup"
                     authenticated={login.authenticated}

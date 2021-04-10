@@ -19,9 +19,15 @@ export type Info = {
     password: string;
 };
 
+export interface SnapShotArr extends firebase.database.DataSnapshot{
+    content: any;
+    uid: any;
+    timestamp: number;
+}
+
 export interface ChatInfo {
     user: firebase.User | null;
-    chats: SnapShopType;
+    chats: SnapShotArr[];
     content: string;
     readError: string | null;
     writeError: string | null;
