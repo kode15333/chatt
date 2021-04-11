@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/Header";
 import {ChatInfo, SnapShotArr} from "../helper/types";
 import {auth, db} from "../services/firebase";
+import {nanoid} from "nanoid";
 
 
 const Chat = () => {
@@ -13,10 +14,12 @@ const Chat = () => {
         writeError: null,
         loadingChats: false
     })
+    const [chLen, setChLen] = useState(0);
 
     const myRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        console.log('11111111111111111')
         setChatInfo({
             ...chatInfo,
             readError: null,
@@ -24,13 +27,15 @@ const Chat = () => {
         })
         const chatArea = myRef.current;
         try {
+            let chats: SnapShotArr[] = [];
+
             db.ref("chats").on("value", snapshot => {
-                let chats: SnapShotArr[] = [];
                 snapshot.forEach((snap) => {
                     chats.push(snap.val());
                 });
                 chats.sort((a, b) => a.timestamp - b.timestamp)
-                chatArea && chatArea.scrollBy(0, chatArea.scrollHeight);
+                chatArea?.scrollBy(0, chatArea.scrollHeight);
+
                 setChatInfo({
                     ...chatInfo,
                     chats,
@@ -45,7 +50,7 @@ const Chat = () => {
                 loadingChats: false
             })
         }
-    }, []);
+    }, [chatInfo.chats.length]);
 
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -100,7 +105,7 @@ const Chat = () => {
                     <span className="sr-only">Loading...</span>
                 </div> : ""}
                 {chatInfo.chats.map(chat => {
-                    return <p key={chat.timestamp}
+                    return <p key={nanoid()}
                               className={"chat-bubble " + (chatInfo.user && chatInfo.user.uid === chat.uid ? "current-user" : "")}>
                         {chat.content}
                         <br/>
