@@ -14,12 +14,11 @@ const Chat = () => {
         writeError: null,
         loadingChats: false
     })
-    const [chLen, setChLen] = useState(0);
 
     const myRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        console.log('11111111111111111')
+        console.log('re render', chatInfo.chats.length)
         setChatInfo({
             ...chatInfo,
             readError: null,
